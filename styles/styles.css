@@ -1,0 +1,14 @@
+#clientsData {
+  /* list-style-type: none; */
+  padding-left: 0;
+}
+
+#clientsData li {
+  padding: 5px;
+  border: 1px solid #d8d8d8;
+  margin: 15px;
+}
+
+.notFound {
+  display: none;
+}
