@@ -73,7 +73,8 @@ function filterList() {
         client.firstName.toLowerCase().includes(filterString) ||
         client.lastName.toLowerCase().includes(filterString) ||
         client.email.toLowerCase().includes(filterString) ||
-        client.date.toLowerCase().includes(filterString)
+        client.date.toLowerCase().includes(filterString) ||
+        client.gender.toLowerCase().includes(filterString)
       );
     });
     refreshData(filteredClients);
