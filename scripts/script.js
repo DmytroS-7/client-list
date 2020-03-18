@@ -90,6 +90,18 @@ function filterList() {
   }
 }
 
+function filterListGender(defaultGender) {
+  const genderList = [];
+  clients.forEach(client => {
+    if (client.gender == defaultGender) {
+      // console.log(client);
+      genderList.push(client);
+    }
+  });
+  console.log(genderList);
+  refreshData(genderList);
+}
+
 function sumAmount(clientsList = clients) {
   const total = clientsList.reduce((amount, client) => {
     return amount + removeCurrencyFromAmount(client.amount);
