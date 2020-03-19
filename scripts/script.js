@@ -73,8 +73,7 @@ function filterList() {
         client.firstName.toLowerCase().includes(filterString) ||
         client.lastName.toLowerCase().includes(filterString) ||
         client.email.toLowerCase().includes(filterString) ||
-        client.date.toLowerCase().includes(filterString) ||
-        client.gender.toLowerCase().includes(filterString)
+        client.date.toLowerCase().includes(filterString)
       );
     });
     refreshData(filteredClients);
@@ -89,16 +88,24 @@ function filterList() {
     showResultListOrNotFound();
   }
 }
+//--filterListGender  v1
+// function filterListGender(defaultGender) {
+//   const genderList = [];
+//   clients.forEach(client => {
+//     if (client.gender == defaultGender) {
+//       // console.log(client);
+//       genderList.push(client);
+//     }
+//   });
+//   // console.log(genderList);
+//   refreshData(genderList);
+// }
 
+//--filterListGender  v2
 function filterListGender(defaultGender) {
-  const genderList = [];
-  clients.forEach(client => {
-    if (client.gender == defaultGender) {
-      // console.log(client);
-      genderList.push(client);
-    }
+  const genderList = clients.filter(client => {
+    return client.gender.toLowerCase() == defaultGender.toLowerCase();
   });
-  console.log(genderList);
   refreshData(genderList);
 }
 
