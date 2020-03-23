@@ -1,8 +1,13 @@
 function displayData(clientsList = clients) {
+  clearList();
   const ul = document.querySelector("#clientsData");
   clientsList.forEach(client => {
     ul.appendChild(getLiElement(client));
   });
+  // const ul = document.querySelector("#clientsData");
+  // Array.from(Object.values(clientsList)).forEach(client => {
+  //   ul.appendChild(getLiElement(client));
+  // });
   sumAmount(clientsList);
 }
 
@@ -140,4 +145,35 @@ function showResultListOrNotFound(param = "showResultList") {
     document.querySelector(".resultList").style.display = "none";
     document.querySelector(".notFound").style.display = "block";
   }
+}
+
+function addClient() {
+  const data = {
+    id: 1,
+    firstName: "Demetris",
+    lastName: "Nerheny",
+    email: "dnerheny0@timesonline.co.uk",
+    gender: "Male",
+    amount: "$2.08",
+    date: "7/28/2019",
+    avatar: "https://robohash.org/omnisveniamqui.jpg?size=50x50&set=set1"
+  };
+
+  const newId = db
+    .ref()
+    .child("clients")
+    .push().key;
+  // console.log(newId);
+
+  let updates = {};
+  updates[`clients/${newId}`] = data;
+
+  db.ref().update(updates, function(error) {
+    if (error) {
+      console.error("New client was not added. Error");
+    } else {
+      // Data saved successfully!
+      console.log("Data added to database!");
+    }
+  });
 }
