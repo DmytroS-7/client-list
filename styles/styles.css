@@ -34,7 +34,7 @@
   z-index: 1;
 }
 
-form::before {
+.formAuth form::before {
   content: "";
   height: 100%;
   width: 100%;
