@@ -12,3 +12,40 @@
 .notFound {
   display: none;
 }
+
+/* Login Page Style */
+
+#cover {
+  /* background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(25, 26, 16, 0.7)),
+    url(https://picsum.photos/1920/1080/?random) center center no-repeat; */
+  background: url(https://picsum.photos/1920/1080/?random) center center
+    no-repeat;
+  height: 100%;
+  background-size: cover;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+#cover-content {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+form::before {
+  content: "";
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+  border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+}
