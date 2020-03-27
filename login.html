@@ -37,7 +37,7 @@
                   <label for="email">Email</label><br />
                   <input
                     class="form-control"
-                    type="email"
+                    type="text"
                     value=""
                     name="email"
                     placeholder="Your email"
@@ -72,7 +72,7 @@
                   <label for="email">Email</label><br />
                   <input
                     class="form-control"
-                    type="email"
+                    type="text"
                     value=""
                     name="email"
                     placeholder="Your email"
@@ -97,6 +97,18 @@
                   Register
                 </button>
               </form>
+              <div class="alert alert-danger fade show m-4 d-none" role="alert">
+                <strong>Error!</strong>
+                <span class="error-message"></span>
+                <!-- <button
+                  type="button"
+                  class="close"
+                  data-dismiss="alert"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button> -->
+              </div>
             </div>
           </div>
           <!-- <a href="https://google.com" target="_blank" class="headerLink">Go to</a> -->
@@ -104,6 +116,11 @@
       </div>
     </section>
   </body>
+  <script
+    type="text/javascript"
+    src="libs/validator.min.js"
+    charset="utf-8"
+  ></script>
   <script
     src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -127,6 +144,7 @@
   <!-- https://firebase.google.com/docs/web/setup#available-libraries -->
   <script type="text/javascript" src="scripts/firebase.js"></script>
   <script type="text/javascript" src="scripts/login.js"></script>
+
   <!-- <script>
     (function() {})();
   </script> -->

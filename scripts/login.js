@@ -51,16 +51,31 @@ firebase.auth().onAuthStateChanged(user => {
 
 //Validation
 
+regForm.querySelector("[name='email']").addEventListener("blur", event => {
+  // console.log("blur");
+  validateEmail(event.target);
+});
+
+loginForm.querySelector("[name='email']").addEventListener("blur", event => {
+  // console.log("blur");
+  validateEmail(event.target);
+});
+
 regForm.querySelector("[type='password']").addEventListener("blur", event => {
   // console.log("blur");
   validatePassword(event.target);
 });
 
-regForm
-  .querySelector("[type='password']")
-  .addEventListener("keypress", event => {
-    validatePassword(event.target);
-  });
+loginForm.querySelector("[type='password']").addEventListener("blur", event => {
+  // console.log("blur");
+  validatePassword(event.target);
+});
+
+// regForm
+//   .querySelector("[type='password']")
+//   .addEventListener("keypress", event => {
+//     validatePassword(event.target);
+//   });
 
 function showLogin() {
   loginForm.style.display = "block";
@@ -75,32 +90,70 @@ function showRegister() {
 function togleStatus(newState) {
   state = newState;
   state === "login" ? showLogin() : showRegister();
+  const alert = document.querySelector(".alert");
+  alert.className = "alert alert-danger fade show m-4 d-none";
 }
 
 function validateRegForm(target) {
   // console.log(formEventTarget.pass.value);
-  validatePassword(target.pass);
-  registerNewUser(target.email.value, target.pass.value);
+  // validatePassword(target.pass);
+  const isFormValid = validateRequiredFields(target);
+  isFormValid ? registerNewUser(target.email.value, target.pass.value) : null;
 }
 
 function validateLoginForm(target) {
   // console.log(formEventTarget.pass.value);
   // validatePassword(target.pass);
-  logIn(target.email.value, target.pass.value);
+  const isFormValid = validateRequiredFields(target);
+  isFormValid ? logIn(target.email.value, target.pass.value) : null;
+}
+
+function validateRequiredFields(target) {
+  const isPasswordValid = validatePassword(target.pass);
+  const isEmailValid = validateEmail(target.email);
+  return isPasswordValid && isEmailValid;
+}
+
+function validateEmail(field) {
+  // validator.isEmail("foo@bar.com");
+  if (field.value && validator.isEmail(field.value)) {
+    markFieldAsValid(field);
+    return true;
+  }
+  // console.log(field);
+  markFieldAsInvalid(field);
+  return false;
 }
 
 function validatePassword(field) {
-  const labelPass = regForm.querySelector("#labelPass");
-  if (field.value.length < 5) {
-    // console.error("Your password is too weak!");
-    field.className += " is-invalid";
-    labelPass.style.color = "red";
-    labelPass.innerHTML = "The password must be 6 characters long or more!";
-  } else {
-    field.className = "form-control is-valid";
-    labelPass.style.color = "black";
-    labelPass.innerHTML = "Password";
+  if (field.value) {
+    markFieldAsValid(field);
+    return true;
   }
+  markFieldAsInvalid(field);
+  return false;
+
+  // const labelPass = regForm.querySelector("#labelPass");
+  // if (field.value.length < 5) {
+  //   console.error("Your password is too weak!");
+  //   field.className += " is-invalid";
+  //   labelPass.style.color = "red";
+  //   labelPass.innerHTML = "The password must be 6 characters long or more!";
+  //   return false;
+  // } else {
+  //   field.className = "form-control is-valid";
+  //   labelPass.style.color = "white";
+  //   labelPass.innerHTML = "Password";
+  //   return true;
+  // }
+}
+
+function markFieldAsInvalid(field) {
+  field.className += " is-invalid";
+}
+
+function markFieldAsValid(field) {
+  field.className = "form-control is-valid";
 }
 
 function registerNewUser(email, password) {
@@ -126,5 +179,11 @@ function logIn(email, password) {
 }
 
 function handleError(error) {
-  alert(`Error! ${error.code} - ${error.message}`);
+  const alert = document.querySelector(".alert");
+  const strong = alert.querySelector("strong");
+  const message = alert.querySelector(".error-message");
+  // strong.innerHTML = error.code;
+  message.innerHTML = error.message;
+  alert.className = "alert alert-danger fade show m-4";
+  // alert(`Error! ${error.code} - ${error.message}`);
 }
