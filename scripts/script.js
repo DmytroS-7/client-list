@@ -17,6 +17,13 @@ firebase.auth().onAuthStateChanged(user => {
   }
 });
 
+const newClientForm = document.querySelector("#newClientForm");
+
+newClientForm.addEventListener("submit", event => {
+  event.preventDefault();
+  addClient(event.target);
+});
+
 function displayData(clientsList = clients) {
   clearList();
   const ul = document.querySelector("#clientsData");
@@ -143,7 +150,7 @@ function sumAmount(clientsList = clients) {
 }
 
 function removeCurrencyFromAmount(amount) {
-  return Number(amount.slice(1));
+  return amount ? Number(amount.slice(1)) : 0;
 }
 
 // function showNotFoundSection() {
@@ -166,17 +173,29 @@ function showResultListOrNotFound(param = "showResultList") {
   }
 }
 
-function addClient() {
+function addClient(form) {
+  // const data = {
+  //   firstName: "Demetris",
+  //   lastName: "Nerheny",
+  //   email: "dnerheny0@timesonline.co.uk",
+  //   gender: "Male",
+  //   amount: "$2.08",
+  //   date: "7/28/2019",
+  //   avatar: "https://robohash.org/omnisveniamqui.jpg?size=50x50&set=set1"
+  // };
+
   const data = {
-    id: 1,
-    firstName: "Demetris",
-    lastName: "Nerheny",
-    email: "dnerheny0@timesonline.co.uk",
-    gender: "Male",
-    amount: "$2.08",
-    date: "7/28/2019",
+    firstName: form.firstName.value,
+    lastName: form.lastName.value,
+    email: form.email.value,
+    gender: form.gender.value,
+    amount: "$" + form.amount.value,
+    date: form.date.value,
     avatar: "https://robohash.org/omnisveniamqui.jpg?size=50x50&set=set1"
+    // avatar: form.photo.value
   };
+
+  console.log(data);
 
   const newId = db
     .ref()
