@@ -23,7 +23,12 @@ newClientForm.addEventListener("submit", event => {
   event.preventDefault();
   // console.log(event.target);
   addClient(event.target);
+  hideModel();
 });
+
+function hideModel() {
+  $("#exampleModal").modal("hide");
+}
 
 function displayData(clientsList = clients) {
   clearList();
