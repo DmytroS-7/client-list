@@ -21,6 +21,7 @@ const newClientForm = document.querySelector("#newClientForm");
 
 newClientForm.addEventListener("submit", event => {
   event.preventDefault();
+  // console.log(event.target);
   addClient(event.target);
 });
 
@@ -214,6 +215,15 @@ function addClient(form) {
       console.log("Data added to database!");
     }
   });
+
+  clearFieldsForm(form);
+}
+
+function clearFieldsForm(form) {
+  form.firstName.value = "";
+  form.lastName.value = "";
+  form.email.value = "";
+  form.amount.value = "";
 }
 
 function logOut() {
