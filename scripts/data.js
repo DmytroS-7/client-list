@@ -5,8 +5,9 @@ const clientsRef = db.ref("clients");
 
 clientsRef.on("value", snapshot => {
   // console.log(snapshot.val());
-  // clients = snapshot.val();
-  clients = Array.from(Object.values(snapshot.val()));
+  // clients = Array.from(Object.values(snapshot.val()));
+  console.log("Display data will be called");
+  clients = snapshot.val();
   displayData(clients);
 });
 // const clients = [

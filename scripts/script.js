@@ -23,67 +23,167 @@ newClientForm.addEventListener("submit", event => {
   event.preventDefault();
   // console.log(event.target);
   addClient(event.target);
-  hideModel();
+  hideModel("#newClientModal");
 });
 
-function hideModel() {
-  $("#exampleModal").modal("hide");
+function hideModel(param) {
+  $(param).modal("hide");
 }
+
+const editClientForm = document.querySelector("#editClientForm");
+
+editClientForm.addEventListener("submit", event => {
+  event.preventDefault();
+  // console.log(event.target);
+  editClient(event.target); //TODO: add Edit client form
+  hideModel("#editClientForm");
+});
 
 function displayData(clientsList = clients) {
   clearList();
   const ul = document.querySelector("#clientsData");
-  clientsList.forEach(client => {
-    ul.appendChild(getLiElement(client));
-  });
-  // const ul = document.querySelector("#clientsData");
-  // Array.from(Object.values(clientsList)).forEach(client => {
+  for (const property in clientsList) {
+    // console.log(`${property}: ${clientsList[property]}`);
+    ul.appendChild(getLiElement(clientsList[property], property));
+  }
+  // clientsList.forEach(client => {
   //   ul.appendChild(getLiElement(client));
   // });
-  sumAmount(clientsList);
+
+  // sumAmount(clientsList);
+  // console.log("clientlist -", Array.from(Object.values(clientsList)));
+  sumAmount(Array.from(Object.values(clientsList)));
 }
 
-function getLiElement(client) {
+function getLiElement(client, id) {
   const newLi = document.createElement("li");
   const avatar = document.createElement("img");
   newLi.className = "media";
-
+  newLi.id = id;
   avatar.className = "mr-3 align-self-center";
   avatar.setAttribute("src", client.avatar);
 
   newLi.appendChild(avatar);
-  newLi.appendChild(createClientDescription(client));
+  newLi.appendChild(createClientDescription(client, id));
   return newLi;
 }
 
-function createClientDescription(client) {
+function createClientDescription(client, id) {
   const div = document.createElement("div");
   div.className = "media-body";
 
   const mailLink = document.createElement("a");
   mailLink.setAttribute("href", `mailto:${client.email}`);
   mailLink.innerHTML = client.email;
+
   const textPart1 = document.createTextNode(
     `${client.lastName} ${client.firstName} - `
   );
+
   const textPart2 = document.createTextNode(
     ` ${client.gender} (${client.date} - ${client.amount})`
   );
+
+  const deleteLink = document.createElement("a");
+  deleteLink.innerHTML = "Delete";
+  deleteLink.setAttribute("href", "#");
+  deleteLink.classList.add("mx-1");
+  deleteLink.addEventListener("click", event => {
+    event.preventDefault();
+    deleteClient(id);
+  });
+  const editLink = createEditLink(id);
   div.appendChild(textPart1);
   div.appendChild(mailLink);
   div.appendChild(textPart2);
+  div.appendChild(editLink);
+  div.appendChild(deleteLink);
 
   return div;
 }
 
-function sortList(order) {
-  const sortedClients = clients.sort((lastClient, nextClient) => {
-    if (order == "ascending") {
-      return lastClient.lastName > nextClient.lastName ? 1 : -1;
-    } else {
-      return lastClient.lastName < nextClient.lastName ? 1 : -1;
-    }
+// <!-- trigger modal -->
+// <a href="" data-toggle="modal" data-target="#editClientModal"
+// 	>Edit client</a
+// >
+function createEditLink(id) {
+  const editLink = document.createElement("a");
+  editLink.innerHTML = "Edit";
+  editLink.setAttribute("href", "#");
+  editLink.setAttribute("data-toggle", "modal");
+  editLink.setAttribute("data-target", "#editClientModal");
+  editLink.setAttribute("data-client-id", id);
+  editLink.classList.add("mx-1");
+  editLink.classList.add("edit-client-link");
+  editLink.addEventListener("click", () => {
+    fillClientForm(id);
   });
+
+  return editLink;
+}
+
+function fillClientForm(id) {
+  // console.log("Fill client form id ", id);
+  // console.log("Fill client form client ", clients[id]);
+  // console.log("clients ", clients);
+
+  if (editClientForm) {
+    editClientForm.firstName.value = clients[id].firstName;
+    editClientForm.lastName.value = clients[id].lastName;
+    editClientForm.email.value = clients[id].email;
+    editClientForm.gender.value = clients[id].gender;
+    editClientForm.amount.value = clients[id].amount;
+    editClientForm.date.value = clients[id].date;
+    editClientForm.clientID.value = id;
+    // editClientForm.photo.value = clients[id].avatar;
+    // "https://robohash.org/omnisveniamqui.jpg?size=50x50&set=set1";
+  }
+}
+
+function editClient(form) {
+  const data = {
+    firstName: form.firstName.value,
+    lastName: form.lastName.value,
+    email: form.email.value,
+    gender: form.gender.value,
+    amount: form.amount.value,
+    date: form.date.value,
+    avatar: "https://robohash.org/omnisveniamqui.jpg?size=50x50&set=set1"
+    // avatar: form.photo.value
+  };
+
+  // console.log(data);
+  const id = form.clientID.value;
+
+  let updates = {};
+
+  updates[`clients/${id}`] = data;
+  // console.log("id-", id, data);
+  if (id) updateDB(updates);
+  hideModel("#editClientModal");
+}
+
+function deleteClient(id) {
+  $("#questDeleteClientModal").modal("show");
+  document
+    .querySelector("#questDeleteClientBtn")
+    .addEventListener("click", () => {
+      const clientRef = db.ref(`clients/${id}`);
+      clientRef.remove();
+      hideModel("#questDeleteClientModal");
+    });
+}
+
+function sortList(order) {
+  const sortedClients = Array.from(Object.values(clients)).sort(
+    (lastClient, nextClient) => {
+      if (order == "ascending") {
+        return lastClient.lastName > nextClient.lastName ? 1 : -1;
+      } else {
+        return lastClient.lastName < nextClient.lastName ? 1 : -1;
+      }
+    }
+  );
   refreshData(sortedClients);
 }
 
@@ -105,14 +205,16 @@ function filterList() {
     .value.toLowerCase()
     .trim();
   if (filterString) {
-    const filteredClients = clients.filter(client => {
-      return (
-        client.firstName.toLowerCase().includes(filterString) ||
-        client.lastName.toLowerCase().includes(filterString) ||
-        client.email.toLowerCase().includes(filterString) ||
-        client.date.toLowerCase().includes(filterString)
-      );
-    });
+    const filteredClients = Array.from(Object.values(clients)).filter(
+      client => {
+        return (
+          client.firstName.toLowerCase().includes(filterString) ||
+          client.lastName.toLowerCase().includes(filterString) ||
+          client.email.toLowerCase().includes(filterString) ||
+          client.date.toLowerCase().includes(filterString)
+        );
+      }
+    );
     refreshData(filteredClients);
     filteredClients.length === 0
       ? showResultListOrNotFound("showNotFound")
@@ -140,7 +242,10 @@ function filterList() {
 
 //--filterListGender  v2
 function filterListGender(defaultGender) {
-  const genderList = clients.filter(client => {
+  // const genderList = clients.filter(client => {
+  //   return client.gender.toLowerCase() == defaultGender.toLowerCase();
+  // });
+  const genderList = Array.from(Object.values(clients)).filter(client => {
     return client.gender.toLowerCase() == defaultGender.toLowerCase();
   });
   refreshData(genderList);
@@ -201,7 +306,7 @@ function addClient(form) {
     // avatar: form.photo.value
   };
 
-  console.log(data);
+  // console.log(data);
 
   const newId = db
     .ref()
@@ -212,16 +317,22 @@ function addClient(form) {
   let updates = {};
   updates[`clients/${newId}`] = data;
 
-  db.ref().update(updates, function(error) {
-    if (error) {
-      console.error("New client was not added. Error");
-    } else {
-      // Data saved successfully!
-      console.log("Data added to database!");
-    }
-  });
+  updateDB(updates);
 
   clearFieldsForm(form);
+}
+
+function updateDB(updates) {
+  db.ref().update(updates, function(error) {
+    if (error) {
+      console.error(
+        "New client was not added or was not saved! Error occured!"
+      );
+    } else {
+      // Data saved successfully!
+      console.log("Data added/saved to database!");
+    }
+  });
 }
 
 function clearFieldsForm(form) {
