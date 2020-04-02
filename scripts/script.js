@@ -123,21 +123,26 @@ function createEditLink(id) {
 }
 
 function fillClientForm(id) {
-  // console.log("Fill client form id ", id);
-  // console.log("Fill client form client ", clients[id]);
+  console.log("Fill client form id ", id);
+  console.log("Fill client form client ", clients[id]);
   // console.log("clients ", clients);
 
-  if (editClientForm) {
-    editClientForm.firstName.value = clients[id].firstName;
-    editClientForm.lastName.value = clients[id].lastName;
-    editClientForm.email.value = clients[id].email;
-    editClientForm.gender.value = clients[id].gender;
-    editClientForm.amount.value = clients[id].amount;
-    editClientForm.date.value = clients[id].date;
-    editClientForm.clientID.value = id;
-    // editClientForm.photo.value = clients[id].avatar;
-    // "https://robohash.org/omnisveniamqui.jpg?size=50x50&set=set1";
-  }
+  const currentClient = clients.find(client => client.clientId == id);
+
+  console.log("currentClient- ", currentClient);
+  // console.log(clients[id].firstName);
+
+  // if (editClientForm) {
+  //   editClientForm.firstName.value = currentClient.firstName;
+  //   editClientForm.lastName.value = currentClient.lastName;
+  //   editClientForm.email.value = currentClient.email;
+  //   editClientForm.gender.value = currentClient.gender;
+  //   editClientForm.amount.value = currentClient.amount;
+  //   editClientForm.date.value = currentClient.date;
+  //   editClientForm.clientID.value = id;
+  //   //   // editClientForm.photo.value = clients[id].avatar;
+  //   //   // "https://robohash.org/omnisveniamqui.jpg?size=50x50&set=set1";
+  // }
 }
 
 function editClient(form) {
@@ -164,6 +169,7 @@ function editClient(form) {
 }
 
 function deleteClient(id) {
+  console.log("delete id -", id);
   $("#questDeleteClientModal").modal("show");
   document
     .querySelector("#questDeleteClientBtn")

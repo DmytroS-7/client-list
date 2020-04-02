@@ -8,8 +8,26 @@ clientsRef.on("value", snapshot => {
   // clients = Array.from(Object.values(snapshot.val()));
   console.log("Display data will be called");
   clients = snapshot.val();
+
+  // console.table(Object.keys(clients));
+  clients = Object.entries(clients).map(client => {
+    return {
+      clientId: `${client[0]}`,
+      firstName: `${client[1].firstName}`,
+      lastName: `${client[1].lastName}`,
+      email: `${client[1].email}`,
+      gender: `${client[1].gender}`,
+      amount: `${client[1].amount}`,
+      date: `${client[1].date}`,
+      avatar: `${client[1].avatar}`
+    };
+  });
+
+  console.log(clients);
+
   displayData(clients);
 });
+
 // const clients = [
 //   {
 //     id: 1,
