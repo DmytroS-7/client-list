@@ -46,14 +46,14 @@
               class="btn btn-secondary"
               onclick="sortList('ascending')"
             >
-              A-Z
+              ASC
             </button>
             <button
               type="button"
               class="btn btn-secondary"
               onclick="sortList('descending')"
             >
-              Z-A
+              DESC
             </button>
           </div>
         </form>
@@ -390,7 +390,10 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">Do you want to delete?</div>
+              <div class="modal-body">
+                <h5 id="captionClientNameDelete">Client name</h5>
+                Do you want to delete?
+              </div>
               <div class="modal-footer">
                 <button
                   type="button"
@@ -460,7 +463,7 @@
   <script type="text/javascript" src="scripts/script.js"></script>
   <script type="text/javascript" src="scripts/data.js"></script>
   <script>
-    (function() {
+    (function () {
       displayData();
     })();
   </script>

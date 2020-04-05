@@ -1,5 +1,5 @@
 //Observe changes
-firebase.auth().onAuthStateChanged(user => {
+firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     // User is signed in.
     // let displayName = user.displayName;
@@ -19,7 +19,7 @@ firebase.auth().onAuthStateChanged(user => {
 
 const newClientForm = document.querySelector("#newClientForm");
 
-newClientForm.addEventListener("submit", event => {
+newClientForm.addEventListener("submit", (event) => {
   event.preventDefault();
   // console.log(event.target);
   addClient(event.target);
@@ -32,7 +32,7 @@ function hideModel(param) {
 
 const editClientForm = document.querySelector("#editClientForm");
 
-editClientForm.addEventListener("submit", event => {
+editClientForm.addEventListener("submit", (event) => {
   event.preventDefault();
   // console.log(event.target);
   editClient(event.target); //TODO: add Edit client form
@@ -42,29 +42,30 @@ editClientForm.addEventListener("submit", event => {
 function displayData(clientsList = clients) {
   clearList();
   const ul = document.querySelector("#clientsData");
-  for (const property in clientsList) {
-    // console.log(`${property}: ${clientsList[property]}`);
-    ul.appendChild(getLiElement(clientsList[property], property));
-  }
-  // clientsList.forEach(client => {
-  //   ul.appendChild(getLiElement(client));
-  // });
 
-  // sumAmount(clientsList);
-  // console.log("clientlist -", Array.from(Object.values(clientsList)));
-  sumAmount(Array.from(Object.values(clientsList)));
+  clientsList.forEach((client) => {
+    ul.appendChild(getLiElement(client));
+  });
+  // for (const property in clientsList) {
+  //   // console.log(`${property}: ${clientsList[property]}`);
+  //   ul.appendChild(getLiElement(clientsList[property], property));
+  // }
+
+  // sumAmount(Array.from(Object.values(clientsList)));
+  sumAmount(clientsList);
 }
 
-function getLiElement(client, id) {
+function getLiElement(client) {
+  const { avatar, clientId } = client;
   const newLi = document.createElement("li");
-  const avatar = document.createElement("img");
+  const image = document.createElement("img");
   newLi.className = "media";
-  newLi.id = id;
-  avatar.className = "mr-3 align-self-center";
-  avatar.setAttribute("src", client.avatar);
+  newLi.id = clientId;
+  image.className = "mr-3 align-self-center";
+  image.setAttribute("src", avatar);
 
-  newLi.appendChild(avatar);
-  newLi.appendChild(createClientDescription(client, id));
+  newLi.appendChild(image);
+  newLi.appendChild(createClientDescription(client, clientId));
   return newLi;
 }
 
@@ -88,7 +89,7 @@ function createClientDescription(client, id) {
   deleteLink.innerHTML = "Delete";
   deleteLink.setAttribute("href", "#");
   deleteLink.classList.add("mx-1");
-  deleteLink.addEventListener("click", event => {
+  deleteLink.addEventListener("click", (event) => {
     event.preventDefault();
     deleteClient(id);
   });
@@ -123,26 +124,18 @@ function createEditLink(id) {
 }
 
 function fillClientForm(id) {
-  console.log("Fill client form id ", id);
-  console.log("Fill client form client ", clients[id]);
-  // console.log("clients ", clients);
-
-  const currentClient = clients.find(client => client.clientId == id);
-
-  console.log("currentClient- ", currentClient);
-  // console.log(clients[id].firstName);
-
-  // if (editClientForm) {
-  //   editClientForm.firstName.value = currentClient.firstName;
-  //   editClientForm.lastName.value = currentClient.lastName;
-  //   editClientForm.email.value = currentClient.email;
-  //   editClientForm.gender.value = currentClient.gender;
-  //   editClientForm.amount.value = currentClient.amount;
-  //   editClientForm.date.value = currentClient.date;
-  //   editClientForm.clientID.value = id;
-  //   //   // editClientForm.photo.value = clients[id].avatar;
-  //   //   // "https://robohash.org/omnisveniamqui.jpg?size=50x50&set=set1";
-  // }
+  const currentClient = clients.find((client) => client.clientId == id);
+  if (editClientForm) {
+    editClientForm.firstName.value = currentClient.firstName;
+    editClientForm.lastName.value = currentClient.lastName;
+    editClientForm.email.value = currentClient.email;
+    editClientForm.gender.value = currentClient.gender;
+    editClientForm.amount.value = currentClient.amount;
+    editClientForm.date.value = currentClient.date;
+    editClientForm.clientID.value = id;
+    // editClientForm.photo.value = clients[id].avatar;
+    // "https://robohash.org/omnisveniamqui.jpg?size=50x50&set=set1";
+  }
 }
 
 function editClient(form) {
@@ -153,7 +146,7 @@ function editClient(form) {
     gender: form.gender.value,
     amount: form.amount.value,
     date: form.date.value,
-    avatar: "https://robohash.org/omnisveniamqui.jpg?size=50x50&set=set1"
+    avatar: "https://robohash.org/omnisveniamqui.jpg?size=50x50&set=set1",
     // avatar: form.photo.value
   };
 
@@ -169,7 +162,18 @@ function editClient(form) {
 }
 
 function deleteClient(id) {
-  console.log("delete id -", id);
+  // console.log("delete id -", id);
+  const currentClient = clients.find((client) => client.clientId == id);
+  console.log(
+    "Delete -" + currentClient.firstName + " " + currentClient.lastName
+  );
+
+  const captionClientNameDelete = document.querySelector(
+    "#captionClientNameDelete"
+  );
+  captionClientNameDelete.innerHTML =
+    currentClient.firstName + " " + currentClient.lastName;
+
   $("#questDeleteClientModal").modal("show");
   document
     .querySelector("#questDeleteClientBtn")
@@ -181,17 +185,31 @@ function deleteClient(id) {
 }
 
 function sortList(order) {
-  const sortedClients = Array.from(Object.values(clients)).sort(
-    (lastClient, nextClient) => {
-      if (order == "ascending") {
-        return lastClient.lastName > nextClient.lastName ? 1 : -1;
-      } else {
-        return lastClient.lastName < nextClient.lastName ? 1 : -1;
-      }
+  const sortedClients = clients.sort((lastClient, nextClient) => {
+    if (order == "ascending") {
+      return removeCurrencyFromAmount(lastClient.amount) >
+        removeCurrencyFromAmount(nextClient.amount)
+        ? 1
+        : -1;
+    } else {
+      return removeCurrencyFromAmount(lastClient.amount) <
+        removeCurrencyFromAmount(nextClient.amount)
+        ? 1
+        : -1;
     }
-  );
+  });
   refreshData(sortedClients);
 }
+// function sortList(order) {
+//   const sortedClients = clients.sort((lastClient, nextClient) => {
+//     if (order == "ascending") {
+//       return lastClient.lastName > nextClient.lastName ? 1 : -1;
+//     } else {
+//       return lastClient.lastName < nextClient.lastName ? 1 : -1;
+//     }
+//   });
+//   refreshData(sortedClients);
+// }
 
 function refreshData(updatedClients) {
   clearList();
@@ -211,16 +229,14 @@ function filterList() {
     .value.toLowerCase()
     .trim();
   if (filterString) {
-    const filteredClients = Array.from(Object.values(clients)).filter(
-      client => {
-        return (
-          client.firstName.toLowerCase().includes(filterString) ||
-          client.lastName.toLowerCase().includes(filterString) ||
-          client.email.toLowerCase().includes(filterString) ||
-          client.date.toLowerCase().includes(filterString)
-        );
-      }
-    );
+    const filteredClients = clients.filter((client) => {
+      return (
+        client.firstName.toLowerCase().includes(filterString) ||
+        client.lastName.toLowerCase().includes(filterString) ||
+        client.email.toLowerCase().includes(filterString) ||
+        client.date.toLowerCase().includes(filterString)
+      );
+    });
     refreshData(filteredClients);
     filteredClients.length === 0
       ? showResultListOrNotFound("showNotFound")
@@ -251,7 +267,7 @@ function filterListGender(defaultGender) {
   // const genderList = clients.filter(client => {
   //   return client.gender.toLowerCase() == defaultGender.toLowerCase();
   // });
-  const genderList = Array.from(Object.values(clients)).filter(client => {
+  const genderList = clients.filter((client) => {
     return client.gender.toLowerCase() == defaultGender.toLowerCase();
   });
   refreshData(genderList);
@@ -261,7 +277,7 @@ function sumAmount(clientsList = clients) {
   const total = clientsList.reduce((amount, client) => {
     return amount + removeCurrencyFromAmount(client.amount);
   }, 0);
-  document.querySelectorAll(".totalAmountContainer").forEach(element => {
+  document.querySelectorAll(".totalAmountContainer").forEach((element) => {
     element.innerHTML = total.toFixed(2);
   });
 }
@@ -308,16 +324,13 @@ function addClient(form) {
     gender: form.gender.value,
     amount: "$" + form.amount.value,
     date: form.date.value,
-    avatar: "https://robohash.org/omnisveniamqui.jpg?size=50x50&set=set1"
+    avatar: "https://robohash.org/omnisveniamqui.jpg?size=50x50&set=set1",
     // avatar: form.photo.value
   };
 
   // console.log(data);
 
-  const newId = db
-    .ref()
-    .child("clients")
-    .push().key;
+  const newId = db.ref().child("clients").push().key;
   // console.log(newId);
 
   let updates = {};
@@ -329,7 +342,7 @@ function addClient(form) {
 }
 
 function updateDB(updates) {
-  db.ref().update(updates, function(error) {
+  db.ref().update(updates, function (error) {
     if (error) {
       console.error(
         "New client was not added or was not saved! Error occured!"
@@ -356,7 +369,7 @@ function logOut() {
       // Sign-out successful.
       window.location.href = "http://127.0.0.1:5500/login.html";
     })
-    .catch(error => {
+    .catch((error) => {
       // An error happened.
       console.error(error);
     });
