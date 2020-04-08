@@ -1,0 +1,28 @@
+{
+  "name": "client-list",
+  "version": "1.0.0",
+  "description": "Client data is simple CRM for managing clients",
+  "main": "data.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DmytroS-7/client-list.git"
+  },
+  "keywords": [
+    "crm",
+    "client",
+    "javascript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DmytroS-7/client-list/issues"
+  },
+  "homepage": "https://github.com/DmytroS-7/client-list#readme",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  }
+}

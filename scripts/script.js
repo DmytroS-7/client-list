@@ -13,7 +13,7 @@ firebase.auth().onAuthStateChanged((user) => {
     // ...
   } else {
     // User is signed out.
-    window.location.href = "http://127.0.0.1:5500/login.html";
+    window.location.href = "login.html";
   }
 });
 
@@ -367,7 +367,7 @@ function logOut() {
     .signOut()
     .then(() => {
       // Sign-out successful.
-      window.location.href = "http://127.0.0.1:5500/login.html";
+      window.location.href = "login.html";
     })
     .catch((error) => {
       // An error happened.

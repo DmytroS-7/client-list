@@ -1,1 +1,4 @@
 /scripts/firebase.js
+dist
+.cache
+node_modules

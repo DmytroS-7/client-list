@@ -15,14 +15,14 @@ let state = "login";
 
 const regForm = document.querySelector("[name='registerForm']");
 
-regForm.addEventListener("submit", event => {
+regForm.addEventListener("submit", (event) => {
   event.preventDefault();
   validateRegForm(event.target);
 });
 
 const loginForm = document.querySelector("[name='loginForm']");
 
-loginForm.addEventListener("submit", event => {
+loginForm.addEventListener("submit", (event) => {
   event.preventDefault();
   validateLoginForm(event.target);
 });
@@ -30,13 +30,13 @@ loginForm.addEventListener("submit", event => {
 togleStatus(state);
 
 //Observe changes
-firebase.auth().onAuthStateChanged(user => {
+firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     // User is signed in.
     // let displayName = user.displayName;
     let email = user.email;
     // alert("Hello " + email);
-    window.location.href = "http://127.0.0.1:5500/index.html";
+    window.location.href = "index.html";
     // let emailVerified = user.emailVerified;
     // let photoURL = user.photoURL;
     // let isAnonymous = user.isAnonymous;
@@ -51,25 +51,27 @@ firebase.auth().onAuthStateChanged(user => {
 
 //Validation
 
-regForm.querySelector("[name='email']").addEventListener("blur", event => {
+regForm.querySelector("[name='email']").addEventListener("blur", (event) => {
   // console.log("blur");
   validateEmail(event.target);
 });
 
-loginForm.querySelector("[name='email']").addEventListener("blur", event => {
+loginForm.querySelector("[name='email']").addEventListener("blur", (event) => {
   // console.log("blur");
   validateEmail(event.target);
 });
 
-regForm.querySelector("[type='password']").addEventListener("blur", event => {
+regForm.querySelector("[type='password']").addEventListener("blur", (event) => {
   // console.log("blur");
   validatePassword(event.target);
 });
 
-loginForm.querySelector("[type='password']").addEventListener("blur", event => {
-  // console.log("blur");
-  validatePassword(event.target);
-});
+loginForm
+  .querySelector("[type='password']")
+  .addEventListener("blur", (event) => {
+    // console.log("blur");
+    validatePassword(event.target);
+  });
 
 // regForm
 //   .querySelector("[type='password']")
@@ -160,8 +162,8 @@ function registerNewUser(email, password) {
   firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
-    .then(response => console.log("Register new user ", response))
-    .catch(error => {
+    .then((response) => console.log("Register new user ", response))
+    .catch((error) => {
       // Handle Errors here.
       // let errorCode = error.code;
       // let errorMessage = error.message;
@@ -174,8 +176,8 @@ function logIn(email, password) {
   firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
-    .then(response => console.log(`Hello ${response.user.email}`, response))
-    .catch(error => handleError(error));
+    .then((response) => console.log(`Hello ${response.user.email}`, response))
+    .catch((error) => handleError(error));
 }
 
 function handleError(error) {
