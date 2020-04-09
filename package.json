@@ -4,8 +4,8 @@
   "description": "Client data is simple CRM for managing clients",
   "main": "data.js",
   "scripts": {
-    "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "start": "parcel index.html login.html",
+    "build": "parcel build index.html login.html"
   },
   "repository": {
     "type": "git",
