@@ -4,13 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="styles/styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
   </head>
   <body>
     <section id="cover" class="min-vh-100">
@@ -54,11 +47,7 @@
                   /><br />
                 </div>
                 <button type="submit" class="btn btn-primary">Register</button>
-                <button
-                  type="button"
-                  class="btn btn-light"
-                  onclick="togleStatus('login')"
-                >
+                <button type="button" class="btn btn-light" id="toggleLogin">
                   Login
                 </button>
               </form>
@@ -89,11 +78,7 @@
                   /><br />
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
-                <button
-                  type="button"
-                  class="btn btn-light"
-                  onclick="togleStatus('register')"
-                >
+                <button type="button" class="btn btn-light" id="toggleRegister">
                   Register
                 </button>
               </form>
@@ -116,34 +101,8 @@
       </div>
     </section>
   </body>
-  <script
-    type="text/javascript"
-    src="libs/validator.min.js"
-    charset="utf-8"
-  ></script>
-  <script
-    src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"
-  ></script>
-  <!-- The core Firebase JS SDK is always required and must be listed first -->
-  <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-database.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-auth.js"></script>
 
-  <!-- https://firebase.google.com/docs/web/setup#available-libraries -->
-  <script type="text/javascript" src="scripts/firebase.js"></script>
-  <script type="text/javascript" src="scripts/login.js"></script>
+  <script type="text/javascript" src="scripts/login.js" type="module"></script>
 
   <!-- <script>
     (function() {})();

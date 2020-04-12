@@ -4,8 +4,8 @@
   "description": "Client data is simple CRM for managing clients",
   "main": "data.js",
   "scripts": {
-    "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "start": "parcel index.html login.html",
+    "build": "parcel build index.html login.html"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,13 @@
   },
   "homepage": "https://github.com/DmytroS-7/client-list#readme",
   "devDependencies": {
+    "firebase": "^7.13.2",
     "parcel-bundler": "^1.12.4"
+  },
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "jquery": "^3.4.1",
+    "popper.js": "^1.16.1",
+    "validator": "^13.0.0"
   }
 }

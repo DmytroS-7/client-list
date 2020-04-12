@@ -1,3 +1,14 @@
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../styles/styles.css";
+
+const firebase = require("firebase/app");
+require("firebase/auth");
+import * as validator from "validator";
+import { initApp } from "./firebase.js";
+
+initApp();
+
 // const link = document.querySelector(".headerLink");
 
 // link.addEventListener("click", event => {
@@ -27,7 +38,7 @@ loginForm.addEventListener("submit", (event) => {
   validateLoginForm(event.target);
 });
 
-togleStatus(state);
+toggleStatus(state);
 
 //Observe changes
 firebase.auth().onAuthStateChanged((user) => {
@@ -36,7 +47,7 @@ firebase.auth().onAuthStateChanged((user) => {
     // let displayName = user.displayName;
     let email = user.email;
     // alert("Hello " + email);
-    window.location.href = "index.html";
+    window.location.href = "./index.html";
     // let emailVerified = user.emailVerified;
     // let photoURL = user.photoURL;
     // let isAnonymous = user.isAnonymous;
@@ -79,6 +90,17 @@ loginForm
 //     validatePassword(event.target);
 //   });
 
+const toggleButtons = [
+  { id: "toggleRegister", value: "register" },
+  { id: "toggleLogin", value: "login" },
+];
+toggleButtons.forEach((button) => {
+  const element = document.querySelector(`#${button.id}`);
+  element.addEventListener("click", () => {
+    toggleStatus(button.value);
+  });
+});
+
 function showLogin() {
   loginForm.style.display = "block";
   regForm.style.display = "none";
@@ -89,7 +111,7 @@ function showRegister() {
   regForm.style.display = "block";
 }
 
-function togleStatus(newState) {
+function toggleStatus(newState) {
   state = newState;
   state === "login" ? showLogin() : showRegister();
   const alert = document.querySelector(".alert");

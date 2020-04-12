@@ -4,14 +4,6 @@
     <meta charset="UTF-8" />
     <title>My Clients Data</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://kit.fontawesome.com/0b75671728.js"></script>
-    <link rel="stylesheet" type="text/css" href="styles/styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
   </head>
   <body>
     <section class="container">
@@ -24,41 +16,32 @@
             type="Start"
             placeholder="Search"
             aria-label="Search"
-            onkeyup="filterList()"
           />
           <button
             class="btn btn-outline-success my-2 my-sm-0"
             type="button"
-            onclick="filterListGender('Female')"
+            id="filterFemale"
           >
             Female
           </button>
           <button
             class="btn btn-outline-success my-2 my-sm-0"
             type="button"
-            onclick="filterListGender('Male')"
+            id="filterMale"
           >
             Male
           </button>
           <div class="btn-group mx-2" role="group" aria-label="First group">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              onclick="sortList('ascending')"
-            >
+            <button type="button" class="btn btn-secondary" id="sortAscending">
               ASC
             </button>
-            <button
-              type="button"
-              class="btn btn-secondary"
-              onclick="sortList('descending')"
-            >
+            <button type="button" class="btn btn-secondary" id="sortDescending">
               DESC
             </button>
           </div>
         </form>
         <a>$<span class="totalAmountContainer">00.00</span></a>
-        <button class="btn btn-secondary" onclick="logOut()">
+        <button class="btn btn-secondary" id="logOut">
           Log out
         </button>
       </nav>
@@ -437,34 +420,6 @@
       </div>
     </section>
   </body>
-
-  <script
-    src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"
-  ></script>
-  <!-- The core Firebase JS SDK is always required and must be listed first -->
-  <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-database.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-auth.js"></script>
-
-  <!-- https://firebase.google.com/docs/web/setup#available-libraries -->
-  <script type="text/javascript" src="scripts/firebase.js"></script>
-  <script type="text/javascript" src="scripts/script.js"></script>
-  <script type="text/javascript" src="scripts/data.js"></script>
-  <script>
-    (function () {
-      displayData();
-    })();
-  </script>
+  <script src="https://kit.fontawesome.com/0b75671728.js"></script>
+  <script type="text/javascript" src="scripts/script.js" type="module"></script>
 </html>
