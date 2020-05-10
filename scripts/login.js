@@ -47,18 +47,39 @@ firebase.auth().onAuthStateChanged((user) => {
     // let displayName = user.displayName;
     let email = user.email;
     // alert("Hello " + email);
-    window.location.href = "./index.html";
-    // let emailVerified = user.emailVerified;
+    //let emailVerified = user.emailVerified;
+    // if (emailVerified) {
+    // window.location.href = "./index.html";
+    // } else {
+    //   window.alert("email not verified");
+    // }
+    // window.location.href = "./index.html";
     // let photoURL = user.photoURL;
     // let isAnonymous = user.isAnonymous;
     // let uid = user.uid;
     // let providerData = user.providerData;
     // ...
+    // console.log(user);
   } else {
     // User is signed out.
     // ...
   }
 });
+
+function sendVerification() {
+  const user = firebase.auth().currentUser;
+
+  user
+    .sendEmailVerification()
+    .then(function () {
+      // Email sent.
+      window.alert("Verification Send Email");
+    })
+    .catch(function (error) {
+      // An error happened.
+      window.alert("Error: " + error.message);
+    });
+}
 
 //Validation
 
@@ -184,7 +205,10 @@ function registerNewUser(email, password) {
   firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
-    .then((response) => console.log("Register new user ", response))
+    .then((response) => {
+      console.log("Register new user ", response);
+      sendVerification();
+    })
     .catch((error) => {
       // Handle Errors here.
       // let errorCode = error.code;
@@ -198,8 +222,24 @@ function logIn(email, password) {
   firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
-    .then((response) => console.log(`Hello ${response.user.email}`, response))
+    .then((response) => {
+      console.log(`Hello ${response.user.email}`, response);
+      // window.location.href = "./index.html";
+      CheckVerificationEmail();
+    })
     .catch((error) => handleError(error));
+}
+
+function CheckVerificationEmail() {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user.emailVerified) {
+      window.location.href = "./index.html";
+    } else {
+      // User is signed out.
+      window.alert("Email is not verified");
+      window.location.href = "./login.html";
+    }
+  });
 }
 
 function handleError(error) {

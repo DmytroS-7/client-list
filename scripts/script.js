@@ -16,8 +16,9 @@ getData();
 
 //Observe changes
 firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
+  if (user.emailVerified) {
     let email = user.email;
+    console.log(user);
   } else {
     // User is signed out.
     window.location.href = "./login.html";
