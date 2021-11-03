@@ -30,6 +30,6 @@
     "bootstrap": "^4.4.1",
     "jquery": "^3.4.1",
     "popper.js": "^1.16.1",
-    "validator": "^13.0.0"
+    "validator": "^13.7.0"
   }
 }
